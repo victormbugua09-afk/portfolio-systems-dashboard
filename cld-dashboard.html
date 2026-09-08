@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Causal Loop Dashboard</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: rgba(17, 25, 40, 0.96);
+        --panel-2: rgba(24, 35, 55, 0.96);
+        --card: rgba(26, 39, 61, 0.94);
+        --border: rgba(148, 163, 184, 0.24);
+        --text: #edf5ff;
+        --muted: #b7c7da;
+        --accent: #8dd3ff;
+        --success: #58d99d;
+        --success-soft: rgba(88, 217, 157, 0.18);
+        --danger: #ff7b7b;
+        --danger-soft: rgba(255, 123, 123, 0.18);
+        --shadow: 0 24px 58px rgba(7, 12, 22, 0.55);
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background:
+          radial-gradient(circle at top left, rgba(141, 211, 255, 0.16), transparent 30%),
+          radial-gradient(circle at bottom right, rgba(88, 217, 157, 0.12), transparent 28%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        padding: 28px 18px 48px;
+      }
+
+      .page-shell {
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 18px 20px;
+        border-radius: 18px;
+        background: rgba(17, 24, 39, 0.82);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--accent), #8ea7ff 50%, #d4b4ff);
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        color: #08111e;
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-size: 1.02rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .status-pill {
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(88, 217, 157, 0.45);
+        background: rgba(88, 217, 157, 0.06);
+        color: var(--success);
+        font-weight: 700;
+        font-size: 0.8rem;
+      }
+
+      .loop-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin: 20px 0 18px;
+      }
+
+      .loop-btn {
+        appearance: none;
+        border: 1px solid var(--border);
+        background: rgba(148, 163, 184, 0.08);
+        color: var(--text);
+        padding: 11px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 0.96rem;
+        font-weight: 700;
+        transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .loop-btn:hover {
+        transform: translateY(-1px);
+        border-color: rgba(141, 211, 255, 0.72);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.16);
+      }
+
+      .loop-btn.active {
+        background: linear-gradient(135deg, rgba(141, 211, 255, 0.18), rgba(88, 217, 157, 0.12));
+        border-color: rgba(141, 211, 255, 0.8);
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.95fr);
+        gap: 24px;
+      }
+
+      .panel {
+        background: rgba(18, 28, 45, 0.94);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+      }
+
+      .graph-panel {
+        padding: 22px;
+      }
+
+      .diagram-stage {
+        position: relative;
+        min-height: 560px;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.7), rgba(14, 20, 31, 0.92));
+        overflow: hidden;
+      }
+
+      .diagram-stage svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .node {
+        position: absolute;
+        width: 215px;
+        min-height: 96px;
+        padding: 12px 14px;
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.24);
+        background: linear-gradient(180deg, rgba(31, 45, 68, 0.96), rgba(22, 33, 50, 0.96));
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+        color: var(--text);
+        font-size: 17px;
+        font-weight: 800;
+        line-height: 1.35;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+      }
+
+      .node:hover {
+        transform: translateY(-1px);
+        border-color: rgba(141, 211, 255, 0.6);
+      }
+
+      .node.is-active {
+        border-color: rgba(141, 211, 255, 0.92);
+        box-shadow: 0 0 0 2px rgba(141, 211, 255, 0.18), 0 0 23px rgba(141, 211, 255, 0.22);
+      }
+
+      .node.is-dimmed {
+        opacity: 0.32;
+        filter: saturate(0.75) brightness(0.9);
+      }
+
+      .link-group .link {
+        fill: none;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        opacity: 0.9;
+        transition: stroke-width 0.18s ease, opacity 0.18s ease, filter 0.18s ease;
+      }
+
+      .link-group .link.positive {
+        stroke: var(--success);
+      }
+
+      .link-group .link.negative {
+        stroke: var(--danger);
+      }
+
+      .link-group .link-label {
+        font-size: 15px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        transition: opacity 0.18s ease, fill 0.18s ease;
+      }
+
+      .link-group .link-label.positive {
+        fill: var(--success);
+      }
+
+      .link-group .link-label.negative {
+        fill: var(--danger);
+      }
+
+      .link-group.is-active .link {
+        stroke-width: 4;
+        filter: drop-shadow(0 0 10px rgba(141, 211, 255, 0.4));
+      }
+
+      .link-group.is-dimmed .link,
+      .link-group.is-dimmed .link-label {
+        opacity: 0.18;
+      }
+
+      .sidebar {
+        padding: 20px;
+      }
+
+      .analysis-card {
+        background: rgba(11, 17, 32, 0.84);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 18px;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        margin-bottom: 10px;
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      .analysis-card h4 {
+        margin: 0 0 10px;
+        font-size: 1.08rem;
+      }
+
+      .analysis-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .metric {
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: rgba(23, 36, 55, 0.72);
+      }
+
+      .metric span {
+        display: block;
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+
+      .metric strong {
+        font-size: 0.96rem;
+      }
+
+      .analysis-list {
+        margin: 16px 0 0;
+        padding-left: 18px;
+        color: var(--text);
+      }
+
+      .analysis-list li {
+        margin-bottom: 8px;
+        line-height: 1.5;
+      }
+
+      @media (max-width: 980px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding-left: 12px;
+          padding-right: 12px;
+        }
+
+        .topbar,
+        .graph-panel,
+        .sidebar {
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+
+        .meta-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">CLD</div>
+          <div>
+            <h1>Systems Thinking Dashboard</h1>
+          </div>
+        </div>
+        <div class="status-pill">Career Causal Loop View</div>
+      </header>
+
+      <div class="loop-controls">
+        <button class="loop-btn active" data-loop="all">All Loops</button>
+        <button class="loop-btn" data-loop="b1">Burnout Balancing Loop (B1)</button>
+        <button class="loop-btn" data-loop="r1">Credibility Reinforcing Loop (R1)</button>
+      </div>
+
+      <main class="dashboard-grid">
+        <section class="panel graph-panel">
+          <div class="diagram-stage" aria-label="Interactive causal loop diagram">
+            <svg viewBox="0 0 1100 540" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs>
+                <marker id="arrow-positive" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#58d99d"></path>
+                </marker>
+                <marker id="arrow-negative" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff7b7b"></path>
+                </marker>
+              </defs>
+
+              <g id="links">
+                <g class="link-group" data-link="manual-fatigue">
+                  <path class="link positive" d="M 270 116 C 330 116, 315 190, 280 238" marker-end="url(#arrow-positive)"/>
+                  <text class="link-label positive" x="300" y="170">(+)</text>
+                </g>
+
+                <g class="link-group" data-link="fatigue-speed">
+                  <path class="link negative" d="M 280 298 C 350 330, 430 348, 500 342" marker-end="url(#arrow-negative)"/>
+                  <text class="link-label negative" x="365" y="318">(-)</text>
+                </g>
+
+                <g class="link-group" data-link="ai-manual">
+                  <path class="link negative" d="M 360 116 C 330 132, 300 160, 280 210" marker-end="url(#arrow-negative)"/>
+                  <text class="link-label negative" x="325" y="146">(-)</text>
+                </g>
+
+                <g class="link-group" data-link="ai-speed">
+                  <path class="link positive" d="M 590 116 C 660 128, 780 146, 800 170" marker-end="url(#arrow-positive)"/>
+                  <text class="link-label positive" x="680" y="136">(+)</text>
+                </g>
+
+                <g class="link-group" data-link="ai-fatigue">
+                  <path class="link negative" d="M 590 100 C 560 150, 470 220, 280 255" marker-end="url(#arrow-negative)"/>
+                  <text class="link-label negative" x="470" y="185">(-)</text>
+                </g>
+
+                <g class="link-group" data-link="study-clarity">
+                  <path class="link positive" d="M 590 298 C 650 298, 720 298, 800 298" marker-end="url(#arrow-positive)"/>
+                  <text class="link-label positive" x="680" y="286">(+)</text>
+                </g>
+
+                <g class="link-group" data-link="clarity-credibility">
+                  <path class="link positive" d="M 890 298 C 930 298, 960 250, 1010 230" marker-end="url(#arrow-positive)"/>
+                  <text class="link-label positive" x="955" y="272">(+)</text>
+                </g>
+
+                <g class="link-group" data-link="credibility-interview">
+                  <path class="link positive" d="M 1010 230 C 1010 270, 1010 300, 1010 330" marker-end="url(#arrow-positive)"/>
+                  <text class="link-label positive" x="1022" y="285">(+)</text>
+                </g>
+
+                <g class="link-group" data-link="interview-momentum">
+                  <path class="link positive" d="M 1010 375 C 980 415, 900 440, 770 432" marker-end="url(#arrow-positive)"/>
+                  <text class="link-label positive" x="920" y="418">(+)</text>
+                </g>
+
+                <g class="link-group" data-link="momentum-fatigue">
+                  <path class="link negative" d="M 770 432 C 650 450, 400 445, 280 322" marker-end="url(#arrow-negative)"/>
+                  <text class="link-label negative" x="560" y="448">(-)</text>
+                </g>
+              </g>
+            </svg>
+
+            <div class="node" id="manualEffort" style="left: 54px; top: 58px;">
+              Manual Application & Drafting Effort
+            </div>
+
+            <div class="node" id="fatigue" style="left: 54px; top: 238px;">
+              Fatigue &amp; Cognitive Burnout
+            </div>
+
+            <div class="node" id="aiAutomation" style="left: 360px; top: 58px;">
+              AI Automation Pipeline / Roo Code
+            </div>
+
+            <div class="node" id="executionSpeed" style="left: 800px; top: 176px;">
+              Application &amp; Portfolio Output Speed
+            </div>
+
+            <div class="node" id="systemsStudy" style="left: 360px; top: 258px;">
+              Systems Thinking &amp; Framework Studies
+            </div>
+
+            <div class="node" id="conceptualClarity" style="left: 800px; top: 258px;">
+              Analytical &amp; Structural Clarity
+            </div>
+
+            <div class="node" id="portfolioCredibility" style="left: 1010px; top: 146px; width: 230px;">
+              NGO Portfolio Credibility
+            </div>
+
+            <div class="node" id="interviewConversion" style="left: 1010px; top: 330px; width: 230px;">
+              Interview Conversion Rate
+            </div>
+
+            <div class="node" id="careerMomentum" style="left: 800px; top: 390px;">
+              Career Momentum &amp; Confidence
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel sidebar">
+          <div class="analysis-card">
+            <div class="eyebrow">Systems Thinking Breakdown</div>
+            <h4 id="analysisTitle">Full System Overview</h4>
+            <p id="analysisSummary">
+              This causal loop diagram models the interactions between manual workload, fatigue, AI-enabled support, and credibility-building systems that matter in public health and NGO career transitions.
+            </p>
+
+            <div class="meta-grid">
+              <div class="metric">
+                <span>Loop Type</span>
+                <strong id="analysisType">Multi-loop</strong>
+              </div>
+              <div class="metric">
+                <span>Polarity Signal</span>
+                <strong id="analysisPolarity">Mixed</strong>
+              </div>
+            </div>
+
+            <ul class="analysis-list" id="analysisList">
+              <li>Manual effort can increase fatigue and reduce throughput.</li>
+              <li>AI automation can reduce manual pressure and support stronger output consistency.</li>
+              <li>Systems thinking strengthens clarity, portfolio credibility, and recruiter confidence.</li>
+            </ul>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script>
+      const loops = {
+        all: {
+          title: 'Full System Overview',
+          type: 'Multi-loop',
+          polarity: 'Mixed',
+          summary: 'This causal loop diagram models the interactions between manual workload, fatigue, AI-enabled support, and credibility-building systems that matter in public health and NGO career transitions.',
+          list: [
+            'Manual effort can increase fatigue and reduce throughput.',
+            'AI automation can reduce manual pressure and support stronger output consistency.',
+            'Systems thinking strengthens clarity, portfolio credibility, and recruiter confidence.'
+          ],
+          nodes: ['manualEffort', 'fatigue', 'aiAutomation', 'executionSpeed', 'systemsStudy', 'conceptualClarity', 'portfolioCredibility', 'interviewConversion', 'careerMomentum'],
+          links: ['manual-fatigue', 'fatigue-speed', 'ai-manual', 'ai-speed', 'ai-fatigue', 'study-clarity', 'clarity-credibility', 'credibility-interview', 'interview-momentum', 'momentum-fatigue']
+        },
+        b1: {
+          title: 'Burnout Balancing Loop (B1)',
+          type: 'Balancing',
+          polarity: '(-) reducing / (+) increasing',
+          summary: 'B1 demonstrates how manual overload can trigger burnout, reduce output speed, and create a balancing pressure on performance. AI automation acts as a corrective intervention by reducing manual effort and protecting sustainable execution.',
+          list: [
+            'Manual effort increases fatigue and cognitive overload.',
+            'Fatigue reduces application and portfolio output speed.',
+            'AI automation acts as a balancing intervention by lowering manual pressure and supporting healthier pacing.'
+          ],
+          nodes: ['manualEffort', 'fatigue', 'executionSpeed', 'aiAutomation'],
+          links: ['manual-fatigue', 'fatigue-speed', 'ai-manual', 'ai-fatigue', 'ai-speed']
+        },
+        r1: {
+          title: 'Credibility Reinforcing Loop (R1)',
+          type: 'Reinforcing',
+          polarity: '(+) boosting / (+) compounding',
+          summary: 'R1 shows how systems thinking strengthens analytical clarity, which improves portfolio credibility, increases interview conversion, and reinforces long-term career momentum.',
+          list: [
+            'Systems thinking improves analytical and structural clarity.',
+            'Greater clarity increases portfolio credibility and recruiter confidence.',
+            'Stronger interview conversion reinforces confidence, momentum, and future opportunities.'
+          ],
+          nodes: ['systemsStudy', 'conceptualClarity', 'portfolioCredibility', 'interviewConversion', 'careerMomentum'],
+          links: ['study-clarity', 'clarity-credibility', 'credibility-interview', 'interview-momentum']
+        }
+      };
+
+      const nodes = Array.from(document.querySelectorAll('.node'));
+      const links = Array.from(document.querySelectorAll('.link-group'));
+      const buttons = Array.from(document.querySelectorAll('.loop-btn'));
+      const analysisTitle = document.getElementById('analysisTitle');
+      const analysisSummary = document.getElementById('analysisSummary');
+      const analysisType = document.getElementById('analysisType');
+      const analysisPolarity = document.getElementById('analysisPolarity');
+      const analysisList = document.getElementById('analysisList');
+
+      function applyLoop(loopKey) {
+        const config = loops[loopKey] || loops.all;
+
+        analysisTitle.textContent = config.title;
+        analysisSummary.textContent = config.summary;
+        analysisType.textContent = config.type;
+        analysisPolarity.textContent = config.polarity;
+        analysisList.innerHTML = config.list.map((item) => `<li>${item}</li>`).join('');
+
+        buttons.forEach((button) => {
+          button.classList.toggle('active', button.dataset.loop === loopKey);
+        });
+
+        nodes.forEach((node) => {
+          const isInLoop = config.nodes.includes(node.id);
+          node.classList.toggle('is-active', loopKey !== 'all' && isInLoop);
+          node.classList.toggle('is-dimmed', loopKey !== 'all' && !isInLoop);
+        });
+
+        links.forEach((link) => {
+          const isInLoop = config.links.includes(link.dataset.link);
+          link.classList.toggle('is-active', loopKey !== 'all' && isInLoop);
+          link.classList.toggle('is-dimmed', loopKey !== 'all' && !isInLoop);
+        });
+      }
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => applyLoop(button.dataset.loop));
+      });
+
+      applyLoop('all');
+    </script>
+  </body>
+</html>
