@@ -332,16 +332,18 @@
         <div class="brand">
           <div class="brand-mark">CLD</div>
           <div>
-            <h1>Systems Thinking Dashboard</h1>
+            <h1>Youth Mental Health Dashboard</h1>
           </div>
         </div>
-        <div class="status-pill">Career Causal Loop View</div>
+        <div class="status-pill">Kenya Youth Mental Health</div>
       </header>
 
       <div class="loop-controls">
         <button class="loop-btn active" data-loop="all">All Loops</button>
-        <button class="loop-btn" data-loop="b1">Burnout Balancing Loop (B1)</button>
-        <button class="loop-btn" data-loop="r1">Credibility Reinforcing Loop (R1)</button>
+        <button class="loop-btn" data-loop="r1">Distress Reinforcing Loop (R1)</button>
+        <button class="loop-btn" data-loop="r2">Stigma &amp; Help-Seeking Loop (R2)</button>
+        <button class="loop-btn" data-loop="b1">Social Support Balancing Loop (B1)</button>
+        <button class="loop-btn" data-loop="b2">Healthcare Access Balancing Loop (B2)</button>
       </div>
 
       <main class="dashboard-grid">
@@ -358,92 +360,96 @@
               </defs>
 
               <g id="links">
-                <g class="link-group" data-link="manual-fatigue">
-                  <path class="link positive" d="M 270 116 C 330 116, 315 190, 280 238" marker-end="url(#arrow-positive)"/>
-                  <text class="link-label positive" x="300" y="170">(+)</text>
+                <g class="link-group" data-link="financial-distress">
+                  <path class="link positive" d="M 220 112 C 290 112, 315 165, 290 225" marker-end="url(#arrow-positive)"/>
+                  <text class="link-label positive" x="270" y="160">(+)</text>
                 </g>
 
-                <g class="link-group" data-link="fatigue-speed">
-                  <path class="link negative" d="M 280 298 C 350 330, 430 348, 500 342" marker-end="url(#arrow-negative)"/>
-                  <text class="link-label negative" x="365" y="318">(-)</text>
+                <g class="link-group" data-link="distress-sleep">
+                  <path class="link negative" d="M 290 252 C 350 290, 440 312, 500 312" marker-end="url(#arrow-negative)"/>
+                  <text class="link-label negative" x="360" y="292">(-)</text>
                 </g>
 
-                <g class="link-group" data-link="ai-manual">
-                  <path class="link negative" d="M 360 116 C 330 132, 300 160, 280 210" marker-end="url(#arrow-negative)"/>
-                  <text class="link-label negative" x="325" y="146">(-)</text>
+                <g class="link-group" data-link="distress-stigma">
+                  <path class="link negative" d="M 500 270 C 470 240, 430 170, 290 118" marker-end="url(#arrow-negative)"/>
+                  <text class="link-label negative" x="420" y="160">(-)</text>
                 </g>
 
-                <g class="link-group" data-link="ai-speed">
-                  <path class="link positive" d="M 590 116 C 660 128, 780 146, 800 170" marker-end="url(#arrow-positive)"/>
-                  <text class="link-label positive" x="680" y="136">(+)</text>
+                <g class="link-group" data-link="stigma-help">
+                  <path class="link negative" d="M 580 120 C 658 108, 740 120, 780 158" marker-end="url(#arrow-negative)"/>
+                  <text class="link-label negative" x="675" y="118">(-)</text>
                 </g>
 
-                <g class="link-group" data-link="ai-fatigue">
-                  <path class="link negative" d="M 590 100 C 560 150, 470 220, 280 255" marker-end="url(#arrow-negative)"/>
-                  <text class="link-label negative" x="470" y="185">(-)</text>
+                <g class="link-group" data-link="help-distress">
+                  <path class="link positive" d="M 780 167 C 720 206, 650 260, 580 300" marker-end="url(#arrow-positive)"/>
+                  <text class="link-label positive" x="690" y="224">(+)</text>
                 </g>
 
-                <g class="link-group" data-link="study-clarity">
-                  <path class="link positive" d="M 590 298 C 650 298, 720 298, 800 298" marker-end="url(#arrow-positive)"/>
-                  <text class="link-label positive" x="680" y="286">(+)</text>
+                <g class="link-group" data-link="support-coping">
+                  <path class="link positive" d="M 500 330 C 612 334, 742 332, 820 332" marker-end="url(#arrow-positive)"/>
+                  <text class="link-label positive" x="660" y="318">(+)</text>
                 </g>
 
-                <g class="link-group" data-link="clarity-credibility">
-                  <path class="link positive" d="M 890 298 C 930 298, 960 250, 1010 230" marker-end="url(#arrow-positive)"/>
-                  <text class="link-label positive" x="955" y="272">(+)</text>
+                <g class="link-group" data-link="coping-distress">
+                  <path class="link negative" d="M 820 330 C 880 330, 930 285, 980 258" marker-end="url(#arrow-negative)"/>
+                  <text class="link-label negative" x="905" y="280">(-)</text>
                 </g>
 
-                <g class="link-group" data-link="credibility-interview">
-                  <path class="link positive" d="M 1010 230 C 1010 270, 1010 300, 1010 330" marker-end="url(#arrow-positive)"/>
-                  <text class="link-label positive" x="1022" y="285">(+)</text>
+                <g class="link-group" data-link="care-access-help">
+                  <path class="link positive" d="M 970 230 C 1000 244, 1030 270, 1030 332" marker-end="url(#arrow-positive)"/>
+                  <text class="link-label positive" x="1012" y="286">(+)</text>
                 </g>
 
-                <g class="link-group" data-link="interview-momentum">
-                  <path class="link positive" d="M 1010 375 C 980 415, 900 440, 770 432" marker-end="url(#arrow-positive)"/>
-                  <text class="link-label positive" x="920" y="418">(+)</text>
+                <g class="link-group" data-link="care-distress">
+                  <path class="link positive" d="M 1030 380 C 1000 420, 920 452, 830 442" marker-end="url(#arrow-positive)"/>
+                  <text class="link-label positive" x="930" y="420">(+)</text>
                 </g>
 
-                <g class="link-group" data-link="momentum-fatigue">
-                  <path class="link negative" d="M 770 432 C 650 450, 400 445, 280 322" marker-end="url(#arrow-negative)"/>
-                  <text class="link-label negative" x="560" y="448">(-)</text>
+                <g class="link-group" data-link="distress-financial">
+                  <path class="link positive" d="M 820 442 C 680 460, 360 446, 250 300" marker-end="url(#arrow-positive)"/>
+                  <text class="link-label positive" x="550" y="448">(+)</text>
                 </g>
               </g>
             </svg>
 
-            <div class="node" id="manualEffort" style="left: 54px; top: 58px;">
-              Manual Application & Drafting Effort
+            <div class="node" id="financialStrain" style="left: 54px; top: 58px; width: 220px;">
+              Financial Strain
             </div>
 
-            <div class="node" id="fatigue" style="left: 54px; top: 238px;">
-              Fatigue &amp; Cognitive Burnout
+            <div class="node" id="psychologicalDistress" style="left: 54px; top: 236px; width: 220px;">
+              Psychological Distress
             </div>
 
-            <div class="node" id="aiAutomation" style="left: 360px; top: 58px;">
-              AI Automation Pipeline / Roo Code
+            <div class="node" id="sleepQuality" style="left: 300px; top: 256px; width: 220px;">
+              Sleep Quality
             </div>
 
-            <div class="node" id="executionSpeed" style="left: 800px; top: 176px;">
-              Application &amp; Portfolio Output Speed
+            <div class="node" id="stigmaBlame" style="left: 300px; top: 58px; width: 220px;">
+              Stigma / Fear of Blame
             </div>
 
-            <div class="node" id="systemsStudy" style="left: 360px; top: 258px;">
-              Systems Thinking &amp; Framework Studies
+            <div class="node" id="helpSeeking" style="left: 590px; top: 58px; width: 220px;">
+              Help-Seeking Behaviour
             </div>
 
-            <div class="node" id="conceptualClarity" style="left: 800px; top: 258px;">
-              Analytical &amp; Structural Clarity
+            <div class="node" id="socialSupport" style="left: 300px; top: 330px; width: 220px;">
+              Social Support
             </div>
 
-            <div class="node" id="portfolioCredibility" style="left: 1010px; top: 146px; width: 230px;">
-              NGO Portfolio Credibility
+            <div class="node" id="copingCapacity" style="left: 820px; top: 292px; width: 220px;">
+              Coping Capacity
             </div>
 
-            <div class="node" id="interviewConversion" style="left: 1010px; top: 330px; width: 230px;">
-              Interview Conversion Rate
+            <div class="node" id="healthcareAccess" style="left: 1010px; top: 146px; width: 230px;">
+              Healthcare Access
             </div>
 
-            <div class="node" id="careerMomentum" style="left: 800px; top: 390px;">
-              Career Momentum &amp; Confidence
+            <div class="node" id="parentalSupport" style="left: 1010px; top: 330px; width: 230px;">
+              Parental Support
+            </div>
+
+            <div class="node" id="supportiveRecovery" style="left: 820px; top: 390px; width: 220px;">
+              Recovery &amp; Wellbeing
             </div>
           </div>
         </section>
@@ -453,7 +459,7 @@
             <div class="eyebrow">Systems Thinking Breakdown</div>
             <h4 id="analysisTitle">Full System Overview</h4>
             <p id="analysisSummary">
-              This causal loop diagram models the interactions between manual workload, fatigue, AI-enabled support, and credibility-building systems that matter in public health and NGO career transitions.
+              This causal loop diagram models how financial pressure, social support, stigma, and healthcare access interact to shape help-seeking and psychological distress among young adults in Kenya.
             </p>
 
             <div class="meta-grid">
@@ -468,9 +474,9 @@
             </div>
 
             <ul class="analysis-list" id="analysisList">
-              <li>Manual effort can increase fatigue and reduce throughput.</li>
-              <li>AI automation can reduce manual pressure and support stronger output consistency.</li>
-              <li>Systems thinking strengthens clarity, portfolio credibility, and recruiter confidence.</li>
+              <li>Financial strain increases distress and can reduce coping capacity over time.</li>
+              <li>Stigma and fear of blame can delay help-seeking, worsening psychological symptoms.</li>
+              <li>Social support and healthcare access act as protective balancing forces.</li>
             </ul>
           </div>
         </aside>
@@ -483,40 +489,66 @@
           title: 'Full System Overview',
           type: 'Multi-loop',
           polarity: 'Mixed',
-          summary: 'This causal loop diagram models the interactions between manual workload, fatigue, AI-enabled support, and credibility-building systems that matter in public health and NGO career transitions.',
+          summary: 'This causal loop diagram models how financial pressure, social support, stigma, and healthcare access interact to shape help-seeking and psychological distress among young adults in Kenya.',
           list: [
-            'Manual effort can increase fatigue and reduce throughput.',
-            'AI automation can reduce manual pressure and support stronger output consistency.',
-            'Systems thinking strengthens clarity, portfolio credibility, and recruiter confidence.'
+            'Financial strain increases distress and can reduce coping capacity over time.',
+            'Stigma and fear of blame can delay help-seeking, worsening psychological symptoms.',
+            'Social support and healthcare access act as protective balancing forces.'
           ],
-          nodes: ['manualEffort', 'fatigue', 'aiAutomation', 'executionSpeed', 'systemsStudy', 'conceptualClarity', 'portfolioCredibility', 'interviewConversion', 'careerMomentum'],
-          links: ['manual-fatigue', 'fatigue-speed', 'ai-manual', 'ai-speed', 'ai-fatigue', 'study-clarity', 'clarity-credibility', 'credibility-interview', 'interview-momentum', 'momentum-fatigue']
-        },
-        b1: {
-          title: 'Burnout Balancing Loop (B1)',
-          type: 'Balancing',
-          polarity: '(-) reducing / (+) increasing',
-          summary: 'B1 demonstrates how manual overload can trigger burnout, reduce output speed, and create a balancing pressure on performance. AI automation acts as a corrective intervention by reducing manual effort and protecting sustainable execution.',
-          list: [
-            'Manual effort increases fatigue and cognitive overload.',
-            'Fatigue reduces application and portfolio output speed.',
-            'AI automation acts as a balancing intervention by lowering manual pressure and supporting healthier pacing.'
-          ],
-          nodes: ['manualEffort', 'fatigue', 'executionSpeed', 'aiAutomation'],
-          links: ['manual-fatigue', 'fatigue-speed', 'ai-manual', 'ai-fatigue', 'ai-speed']
+          nodes: ['financialStrain', 'psychologicalDistress', 'sleepQuality', 'stigmaBlame', 'helpSeeking', 'socialSupport', 'copingCapacity', 'healthcareAccess', 'parentalSupport', 'supportiveRecovery'],
+          links: ['financial-distress', 'distress-sleep', 'distress-stigma', 'stigma-help', 'help-distress', 'support-coping', 'coping-distress', 'care-access-help', 'care-distress', 'distress-financial']
         },
         r1: {
-          title: 'Credibility Reinforcing Loop (R1)',
+          title: 'Distress Reinforcing Loop (R1)',
           type: 'Reinforcing',
-          polarity: '(+) boosting / (+) compounding',
-          summary: 'R1 shows how systems thinking strengthens analytical clarity, which improves portfolio credibility, increases interview conversion, and reinforces long-term career momentum.',
+          polarity: '(+) reinforcing / (+) compounding',
+          summary: 'R1 shows how financial strain can increase psychological distress, reduce coping capacity, and intensify future pressure on wellbeing.',
           list: [
-            'Systems thinking improves analytical and structural clarity.',
-            'Greater clarity increases portfolio credibility and recruiter confidence.',
-            'Stronger interview conversion reinforces confidence, momentum, and future opportunities.'
+            'Financial strain raises psychological distress.',
+            'Higher distress reduces coping capacity and sleep quality.',
+            'Lower coping capacity makes it harder to manage daily pressures, increasing future distress.'
           ],
-          nodes: ['systemsStudy', 'conceptualClarity', 'portfolioCredibility', 'interviewConversion', 'careerMomentum'],
-          links: ['study-clarity', 'clarity-credibility', 'credibility-interview', 'interview-momentum']
+          nodes: ['financialStrain', 'psychologicalDistress', 'sleepQuality', 'copingCapacity'],
+          links: ['financial-distress', 'distress-sleep', 'distress-financial']
+        },
+        r2: {
+          title: 'Stigma & Help-Seeking Loop (R2)',
+          type: 'Reinforcing',
+          polarity: '(+) reinforcing / (-) delayed help-seeking',
+          summary: 'R2 captures how stigma and fear of blame discourage help-seeking, leading to delayed support and worsening distress.',
+          list: [
+            'Psychological distress can increase the sense of stigma or fear of blame.',
+            'Stigma discourages help-seeking behaviour.',
+            'Delayed help-seeking allows distress to worsen, strengthening the cycle.'
+          ],
+          nodes: ['psychologicalDistress', 'stigmaBlame', 'helpSeeking'],
+          links: ['distress-stigma', 'stigma-help', 'help-distress']
+        },
+        b1: {
+          title: 'Social Support Balancing Loop (B1)',
+          type: 'Balancing',
+          polarity: '(-) protective / (+) reducing',
+          summary: 'B1 shows how social support improves coping, reduces distress, and increases the likelihood of earlier support-seeking.',
+          list: [
+            'Social support strengthens coping capacity.',
+            'Stronger coping reduces psychological distress.',
+            'Reduced distress makes help-seeking more likely and slows the escalation of symptoms.'
+          ],
+          nodes: ['socialSupport', 'copingCapacity', 'psychologicalDistress', 'helpSeeking'],
+          links: ['support-coping', 'coping-distress', 'help-distress']
+        },
+        b2: {
+          title: 'Healthcare Access Balancing Loop (B2)',
+          type: 'Balancing',
+          polarity: '(-) protective / (+) recovery',
+          summary: 'B2 demonstrates how better healthcare access improves the quality and timeliness of support, reducing distress and supporting recovery and wellbeing.',
+          list: [
+            'Healthcare access improves the chance of timely support.',
+            'Timely support reduces psychological distress.',
+            'Lower distress supports recovery, wellbeing, and healthier long-term coping.'
+          ],
+          nodes: ['healthcareAccess', 'helpSeeking', 'supportiveRecovery', 'psychologicalDistress'],
+          links: ['care-access-help', 'care-distress', 'help-distress']
         }
       };
 

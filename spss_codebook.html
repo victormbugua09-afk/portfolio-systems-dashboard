@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPSS Codebook | Kenya Youth Mental Health</title>
+    <meta name="description" content="Interactive SPSS-ready codebook for the Kenya youth mental health synthetic dataset." />
+    <style>
+      :root {
+        --bg-dark: #0a0a0c;
+        --panel-dark: #121216;
+        --panel-border: #262630;
+        --text-light: #f3f4f6;
+        --text-muted: #9ca3af;
+        --gold-primary: #d4af37;
+        --gold-gradient: linear-gradient(135deg, #f3e5ab 0%, #d4af37 50%, #aa7c11 100%);
+        --soft-card: rgba(255,255,255,0.02);
+        --shadow: 0 20px 30px rgba(0,0,0,0.45);
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: radial-gradient(circle at top left, rgba(212,175,55,0.08), transparent 24%), var(--bg-dark); color: var(--text-light); line-height: 1.6; }
+      a { color: inherit; text-decoration: none; }
+      .container { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+      header { position: sticky; top: 0; z-index: 100; background: rgba(10,10,12,0.9); border-bottom: 1px solid var(--panel-border); }
+      .nav { display: flex; align-items: center; justify-content: space-between; min-height: 72px; gap: 24px; flex-wrap: wrap; }
+      .brand { font-size: 1.08rem; font-weight: 800; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+      .nav-links { display: flex; gap: 20px; flex-wrap: wrap; }
+      .nav-links a { color: var(--text-muted); }
+      .nav-cta { background: var(--gold-gradient); color: #111827 !important; padding: 0.7rem 1.1rem; border-radius: 12px; font-weight: 700; }
+      main { padding: 32px 0 64px; }
+      .hero-shell { background: linear-gradient(180deg, rgba(31,31,38,0.95), rgba(18,18,22,1)); border: 1px solid var(--panel-border); border-radius: 24px; box-shadow: var(--shadow); padding: 32px; }
+      .eyebrow { display: inline-block; color: var(--gold-primary); border: 1px solid var(--gold-primary); border-radius: 999px; padding: 0.35rem 0.9rem; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
+      h1 { margin: 18px 0 14px; font-size: clamp(2.2rem, 4vw, 3.4rem); letter-spacing: -0.03em; }
+      .lead { color: var(--text-muted); max-width: 72ch; font-size: 1.05rem; }
+      .subbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 24px; }
+      .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+      .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 12px; padding: 0.8rem 1.25rem; font-weight: 700; }
+      .btn-gold { background: var(--gold-gradient); color: #111827; }
+      .btn-outline { border: 1px solid var(--gold-primary); color: var(--gold-primary); background: transparent; }
+      .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 24px; }
+      .kpi { background: var(--soft-card); border: 1px solid var(--panel-border); border-radius: 18px; padding: 18px 20px; }
+      .kpi .label { display: block; color: var(--text-muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+      .kpi strong { font-size: clamp(1.15rem, 2vw, 1.7rem); }
+      .controls { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+      .search-box { flex: 1 1 360px; display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 14px; padding: 0.85rem 1rem; }
+      .search-box input { flex: 1; background: transparent; border: none; outline: none; color: var(--text-light); font-size: 0.96rem; }
+      .chip-row { display: flex; gap: 10px; flex-wrap: wrap; }
+      .chip { background: transparent; border: 1px solid var(--panel-border); color: var(--text-muted); border-radius: 999px; padding: 0.45rem 0.85rem; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+      .chip.active { background: rgba(212,175,55,0.12); border-color: rgba(212,175,55,0.38); color: var(--gold-primary); }
+      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+      .card { background: rgba(18,18,22,0.95); border: 1px solid var(--panel-border); border-radius: 22px; box-shadow: var(--shadow); padding: 22px; }
+      .card-header { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
+      .var-name { font-size: 1rem; font-weight: 800; }
+      .pill { display: inline-flex; align-items: center; justify-content: center; padding: 0.3rem 0.65rem; border-radius: 999px; border: 1px solid rgba(212,175,55,0.3); background: rgba(212,175,55,0.08); color: var(--gold-primary); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+      .meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 18px; margin-bottom: 14px; color: var(--text-muted); }
+      .meta strong { color: var(--text-light); }
+      .values { padding-left: 18px; color: var(--text-muted); }
+      .values li + li { margin-top: 6px; }
+      .panel { background: rgba(18,18,22,0.95); border: 1px solid var(--panel-border); border-radius: 22px; box-shadow: var(--shadow); padding: 24px; }
+      .section-head { margin-bottom: 18px; }
+      .section-head h2 { margin: 0; font-size: clamp(1.5rem, 2vw, 2rem); border-left: 4px solid var(--gold-primary); padding-left: 12px; }
+      .two-col { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 20px; }
+      .plain-list { padding-left: 18px; color: var(--text-muted); }
+      .plain-list li + li { margin-top: 8px; }
+      .table { width: 100%; border-collapse: collapse; color: var(--text-light); }
+      .table th, .table td { border-bottom: 1px solid var(--panel-border); padding: 0.8rem 0.65rem; text-align: left; vertical-align: top; }
+      .table th { color: var(--gold-primary); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; }
+      footer { border-top: 1px solid var(--panel-border); padding: 28px 0 40px; text-align: center; color: var(--text-muted); }
+      @media (max-width: 900px) { .kpi-grid, .grid, .two-col { grid-template-columns: 1fr; } }
+      @media (max-width: 640px) { .hero-shell { padding: 22px; } .nav { justify-content: center; } .nav-links { justify-content: center; } .cta-row { flex-direction: column; align-items: stretch; } .btn { width: 100%; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <div class="brand">Victor Eliud Mbugua Kinyanjui</div>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="index.html">Portfolio</a>
+          <a href="findings_summary.html">Findings Summary</a>
+          <a href="kenya_youth_mental_health_synthetic_dataset.csv" target="_blank" rel="noreferrer">Dataset</a>
+          <a class="nav-cta" href="cld-dashboard.html">Open Dashboard</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <div class="container hero-shell">
+          <div class="eyebrow">Project appendix</div>
+          <h1>SPSS Codebook</h1>
+          <p class="lead">This codebook describes the synthetic dataset used in the Kenya youth mental health mini-project. It is structured to support SPSS and STATA-style analysis workflows, while presenting the variable dictionary in a cleaner, portfolio-friendly format.</p>
+
+          <div class="subbar">
+            <div class="cta-row">
+              <a class="btn btn-gold" href="findings_summary.html">Open Findings Summary</a>
+              <a class="btn btn-outline" href="kenya_youth_mental_health_synthetic_dataset.csv" target="_blank" rel="noreferrer">Download Sample Dataset</a>
+            </div>
+            <div class="eyebrow" style="margin-bottom:0;">Synthetic sample • Portfolio-ready</div>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi"><span class="label">Dataset</span><strong>70 rows</strong></div>
+            <div class="kpi"><span class="label">Variables</span><strong>20 fields</strong></div>
+            <div class="kpi"><span class="label">Main outcome</span><strong>Help-seeking</strong></div>
+            <div class="kpi"><span class="label">Use case</span><strong>SPSS &amp; STATA</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="controls">
+            <label class="search-box" aria-label="Search variables">
+              <span>🔎</span>
+              <input id="searchInput" type="text" placeholder="Search variables, labels, or values..." />
+            </label>
+            <div class="chip-row" id="categoryChips"></div>
+          </div>
+          <div id="variableGrid" class="grid"></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container two-col">
+          <div class="panel">
+            <div class="section-head"><h2>Recommended recoding</h2></div>
+            <ul class="plain-list">
+              <li><strong>financial_strain:</strong> Low = 1, Moderate = 2, High = 3</li>
+              <li><strong>social_support:</strong> Low = 1, Moderate = 2, High = 3</li>
+              <li><strong>psychological_distress:</strong> Low = 1, Moderate = 2, High = 3</li>
+              <li><strong>healthcare_access:</strong> Poor = 1, Fair = 2, Good = 3</li>
+              <li><strong>help_seeking:</strong> No = 0, Sometimes = 1, Yes = 2</li>
+              <li><strong>stigma_blame:</strong> No = 0, Yes = 1</li>
+              <li><strong>crime_exposure:</strong> No = 0, Yes = 1</li>
+              <li><strong>sexual_abuse_exposure:</strong> No = 0, Yes = 1</li>
+              <li><strong>urban_rural:</strong> Urban = 0, Rural = 1</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <div class="section-head"><h2>Suggested binary outcome</h2></div>
+            <ul class="plain-list">
+              <li><strong>help_seeking_binary</strong></li>
+              <li>0 = No or Sometimes</li>
+              <li>1 = Yes</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="panel">
+            <div class="section-head"><h2>Suggested analysis plan</h2></div>
+            <table class="table">
+              <thead>
+                <tr><th>Step</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td>Run frequencies for key variables.</td></tr>
+                <tr><td>2</td><td>Use crosstabs for help-seeking by financial strain and social support.</td></tr>
+                <tr><td>3</td><td>Run chi-square tests for categorical associations.</td></tr>
+                <tr><td>4</td><td>Run a t-test for psychological distress by help-seeking group.</td></tr>
+                <tr><td>5</td><td>Optionally run logistic regression with help_seeking_binary as the dependent variable.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">Kenya Youth Mental Health Mini-Project • SPSS codebook • Portfolio-ready documentation</div>
+    </footer>
+
+    <script>
+      const variables = [
+        { name: 'id', label: 'Respondent ID', type: 'Numeric', range: '1–150', values: ['Unique respondent identifier'], group: 'Demographic' },
+        { name: 'age', label: 'Age of respondent', type: 'Numeric', range: '20–29', values: ['Valid range: 20 to 29'], group: 'Demographic' },
+        { name: 'gender', label: 'Gender', type: 'Categorical', range: 'Female / Male', values: ['Female', 'Male'], group: 'Demographic' },
+        { name: 'education_level', label: 'Highest education level completed', type: 'Categorical', range: 'Secondary / Tertiary / University', values: ['Secondary', 'Tertiary', 'University'], group: 'Demographic' },
+        { name: 'employment_status', label: 'Current employment status', type: 'Categorical', range: 'Student / Employed / Self-employed / Unemployed', values: ['Student', 'Employed', 'Self-employed', 'Unemployed'], group: 'Demographic' },
+        { name: 'financial_strain', label: 'Financial strain', type: 'Ordinal', range: 'Low / Moderate / High', values: ['Low', 'Moderate', 'High'], group: 'Economic stress' },
+        { name: 'education_pressure', label: 'Education pressure', type: 'Ordinal', range: 'Low / Moderate / High', values: ['Low', 'Moderate', 'High'], group: 'Economic stress' },
+        { name: 'job_market_unfairness', label: 'Perceived job market unfairness', type: 'Ordinal', range: 'Low / Moderate / High', values: ['Low', 'Moderate', 'High'], group: 'Economic stress' },
+        { name: 'inflation_pressure', label: 'Inflation pressure', type: 'Ordinal', range: 'Low / Moderate / High', values: ['Low', 'Moderate', 'High'], group: 'Economic stress' },
+        { name: 'social_support', label: 'Social support', type: 'Ordinal', range: 'Low / Moderate / High', values: ['Low', 'Moderate', 'High'], group: 'Support' },
+        { name: 'parental_support', label: 'Parental or caregiver support', type: 'Ordinal', range: 'Low / Moderate / High', values: ['Low', 'Moderate', 'High'], group: 'Support' },
+        { name: 'stigma_blame', label: 'Felt blamed or judged for mental health struggles', type: 'Binary', range: 'No / Yes', values: ['No', 'Yes'], group: 'Stigma and barriers' },
+        { name: 'help_seeking', label: 'Help-seeking behavior', type: 'Ordinal', range: 'No / Sometimes / Yes', values: ['No', 'Sometimes', 'Yes'], group: 'Outcome' },
+        { name: 'psychological_distress', label: 'Psychological distress', type: 'Ordinal', range: 'Low / Moderate / High', values: ['Low', 'Moderate', 'High'], group: 'Mental health' },
+        { name: 'sleep_quality', label: 'Sleep quality', type: 'Ordinal', range: 'Poor / Fair / Good', values: ['Poor', 'Fair', 'Good'], group: 'Mental health' },
+        { name: 'healthcare_access', label: 'Access to healthcare services', type: 'Ordinal', range: 'Poor / Fair / Good', values: ['Poor', 'Fair', 'Good'], group: 'Access and services' },
+        { name: 'crime_exposure', label: 'Exposure to crime or violence', type: 'Binary', range: 'No / Yes', values: ['No', 'Yes'], group: 'Exposure' },
+        { name: 'substance_use', label: 'Substance use', type: 'Ordinal', range: 'No / Occasional / Frequent', values: ['No', 'Occasional', 'Frequent'], group: 'Exposure' },
+        { name: 'sexual_abuse_exposure', label: 'Sexual abuse or harassment exposure', type: 'Binary', range: 'No / Yes', values: ['No', 'Yes'], group: 'Exposure' },
+        { name: 'urban_rural', label: 'Residence type', type: 'Categorical', range: 'Urban / Rural', values: ['Urban', 'Rural'], group: 'Context' }
+      ];
+
+      const chipsContainer = document.getElementById('categoryChips');
+      const grid = document.getElementById('variableGrid');
+      const searchInput = document.getElementById('searchInput');
+      const groups = ['All', ...new Set(variables.map(item => item.group))];
+      let activeGroup = 'All';
+
+      function renderChips() {
+        chipsContainer.innerHTML = groups.map(group => `
+          <button class="chip ${group === activeGroup ? 'active' : ''}" data-group="${group}">${group}</button>
+        `).join('');
+
+        chipsContainer.querySelectorAll('.chip').forEach(button => {
+          button.addEventListener('click', () => {
+            activeGroup = button.dataset.group;
+            renderChips();
+            renderVariables();
+          });
+        });
+      }
+
+      function renderVariables() {
+        const query = searchInput.value.trim().toLowerCase();
+        const filtered = variables.filter(item => {
+          const matchesGroup = activeGroup === 'All' || item.group === activeGroup;
+          const text = [item.name, item.label, item.type, item.range, ...item.values].join(' ').toLowerCase();
+          return matchesGroup && text.includes(query);
+        });
+
+        grid.innerHTML = filtered.map(item => `
+          <article class="card">
+            <div class="card-header">
+              <div class="var-name">${item.name}</div>
+              <span class="pill">${item.type}</span>
+            </div>
+            <div class="meta">
+              <div><strong>Label:</strong> ${item.label}</div>
+              <div><strong>Group:</strong> ${item.group}</div>
+              <div><strong>Range:</strong> ${item.range}</div>
+            </div>
+            <ul class="values">${item.values.map(value => `<li>${value}</li>`).join('')}</ul>
+          </article>
+        `).join('');
+      }
+
+      searchInput.addEventListener('input', renderVariables);
+      renderChips();
+      renderVariables();
+    </script>
+  </body>
+</html>
